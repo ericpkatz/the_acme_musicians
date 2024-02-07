@@ -6,8 +6,13 @@ function App() {
   useEffect(()=> {
     const fetchMusicians = async()=> {
       const response = await fetch('/api/musicians');
-      const json = await response.json();
-      setMusicians(json);
+      if(response.ok){
+        const json = await response.json();
+        setMusicians(json);
+      }
+      else {
+        console.log('error');
+      }
     };
     fetchMusicians();
 
