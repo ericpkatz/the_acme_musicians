@@ -1,7 +1,12 @@
 const express = require('express');
 const app = express();
 const pg = require('pg');
+const path = require('path');
 const client = new pg.Client(process.env.DATABASE_URL || 'postgres://localhost/acme_musicians_db');
+
+//I only need for deployment!
+app.use('/assets', express.static(path.join(__dirname, '../client/dist/assets')));
+app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '../client/dist/index.html')));
 
 app.get('/api/musicians', async(req, res, next)=> {
   try {
