@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 function App() {
   const [musicians, setMusicians] = useState([]);
+  const [puppies, setPuppies] =  useState([]);
 
   useEffect(()=> {
     const fetchMusicians = async()=> {
@@ -15,7 +16,15 @@ function App() {
       }
     };
     fetchMusicians();
+  }, []);
 
+  useEffect(()=> {
+    const fetchPuppies = async()=> {
+      const response = await fetch('https://fsa-puppy-bowl.herokuapp.com/api/2309-ftb-et-am/players');
+      const json = await response.json();
+      setPuppies(json.data.players);
+    };
+    fetchPuppies();
   }, []);
 
   return (
@@ -32,6 +41,16 @@ function App() {
           })
         }
       </ul>
+      <h1>Puppy Bowl ({ puppies.length })</h1>
+      {
+        puppies.map((puppy)=>{
+          return (
+            <div key={puppy.id}>
+              { puppy.name }
+            </div>
+          );
+        })
+      }
     </div>
   )
 }
